@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "银行风控建模实训",
+    "category": "风险管理",
+    "description": "通过实际案例学习银行风险控制模型的构建与应用",
+    "duration": "4周",
+    "difficulty": "中级",
+    "participants": 120
+  },
+  {
+    "id": 2,
+    "title": "金融数据分析实训",
+    "category": "数据分析",
+    "description": "运用Python和数据分析工具进行金融数据处理与分析",
+    "duration": "6周",
+    "difficulty": "高级",
+    "participants": 95
+  },
+  {
+    "id": 3,
+    "title": "金融科技产品开发实训",
+    "category": "产品开发",
+    "description": "从需求分析到产品上线的完整开发流程实践",
+    "duration": "8周",
+    "difficulty": "高级",
+    "participants": 80
+  }
+]
+

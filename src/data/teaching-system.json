@@ -1,0 +1,67 @@
+{
+  "framework": {
+    "title": "金融产教融合教学体系",
+    "nodes": [
+      { "id": "root", "name": "金融产教融合", "type": "root" },
+      { "id": "theory", "name": "理论基础", "type": "category", "parent": "root" },
+      { "id": "practice", "name": "实践教学", "type": "category", "parent": "root" },
+      { "id": "innovation", "name": "创新培养", "type": "category", "parent": "root" },
+      { "id": "finance-basic", "name": "金融基础", "type": "module", "parent": "theory" },
+      { "id": "risk-management", "name": "风险管理", "type": "module", "parent": "theory" },
+      { "id": "data-analysis", "name": "数据分析", "type": "module", "parent": "practice" },
+      { "id": "product-design", "name": "产品设计", "type": "module", "parent": "practice" },
+      { "id": "tech-innovation", "name": "科技创新", "type": "module", "parent": "innovation" }
+    ],
+    "links": [
+      { "source": "root", "target": "theory" },
+      { "source": "root", "target": "practice" },
+      { "source": "root", "target": "innovation" },
+      { "source": "theory", "target": "finance-basic" },
+      { "source": "theory", "target": "risk-management" },
+      { "source": "practice", "target": "data-analysis" },
+      { "source": "practice", "target": "product-design" },
+      { "source": "innovation", "target": "tech-innovation" }
+    ]
+  },
+  "learningPath": [
+    {
+      "stage": "第一阶段",
+      "title": "基础理论学习",
+      "duration": "4周",
+      "modules": ["金融基础", "经济学原理", "会计学基础"]
+    },
+    {
+      "stage": "第二阶段",
+      "title": "专业技能培养",
+      "duration": "6周",
+      "modules": ["数据分析", "风险管理", "金融建模"]
+    },
+    {
+      "stage": "第三阶段",
+      "title": "实践项目训练",
+      "duration": "8周",
+      "modules": ["项目实战", "企业实习", "成果展示"]
+    },
+    {
+      "stage": "第四阶段",
+      "title": "创新应用拓展",
+      "duration": "4周",
+      "modules": ["创新项目", "论文撰写", "成果转化"]
+    }
+  ],
+  "roles": {
+    "teachers": {
+      "name": "教师",
+      "responsibilities": ["课程设计", "理论教学", "实践指导", "成果评估"]
+    },
+    "students": {
+      "name": "学生",
+      "responsibilities": ["理论学习", "实践操作", "项目完成", "成果展示"]
+    },
+    "enterprises": {
+      "name": "企业",
+      "responsibilities": ["提供案例", "导师指导", "实习机会", "成果转化"]
+    }
+  }
+}
+

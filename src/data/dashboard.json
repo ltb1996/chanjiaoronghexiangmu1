@@ -1,0 +1,54 @@
+{
+  "projectParticipation": {
+    "totalProjects": 15,
+    "activeProjects": 8,
+    "completedProjects": 7,
+    "totalParticipants": 350
+  },
+  "teachingActivities": {
+    "thisMonth": 25,
+    "lastMonth": 20,
+    "thisYear": 180,
+    "monthlyData": [
+      { "month": "1月", "count": 12 },
+      { "month": "2月", "count": 15 },
+      { "month": "3月", "count": 18 },
+      { "month": "4月", "count": 20 },
+      { "month": "5月", "count": 22 },
+      { "month": "6月", "count": 25 }
+    ]
+  },
+  "enterpriseMentors": {
+    "total": 12,
+    "active": 8,
+    "sessionsThisMonth": 15,
+    "mentors": [
+      { "name": "张总", "company": "工商银行", "sessions": 5 },
+      { "name": "李总", "company": "建设银行", "sessions": 4 },
+      { "name": "王总", "company": "招商银行", "sessions": 3 },
+      { "name": "赵总", "company": "平安银行", "sessions": 3 }
+    ]
+  },
+  "studentCompletion": {
+    "totalStudents": 350,
+    "completed": 280,
+    "inProgress": 50,
+    "notStarted": 20,
+    "byCategory": [
+      { "category": "风险管理", "completed": 95, "inProgress": 15, "notStarted": 5 },
+      { "category": "数据分析", "completed": 85, "inProgress": 20, "notStarted": 8 },
+      { "category": "产品开发", "completed": 100, "inProgress": 15, "notStarted": 7 }
+    ]
+  },
+  "projectStats": {
+    "byType": [
+      { "type": "银行风控", "count": 5 },
+      { "type": "数据分析", "count": 4 },
+      { "type": "产品开发", "count": 3 },
+      { "type": "合规监管", "count": 3 }
+    ],
+    "completionRate": 85.5,
+    "averageDuration": 5.2
+  }
+}
+

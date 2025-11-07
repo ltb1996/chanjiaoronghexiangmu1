@@ -1,0 +1,107 @@
+{
+  "nodes": [
+    {
+      "id": "school",
+      "name": "学校",
+      "category": "institution",
+      "value": 100,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "enterprise1",
+      "name": "工商银行",
+      "category": "enterprise",
+      "value": 80,
+      "x": -150,
+      "y": 100
+    },
+    {
+      "id": "enterprise2",
+      "name": "建设银行",
+      "category": "enterprise",
+      "value": 75,
+      "x": 150,
+      "y": 100
+    },
+    {
+      "id": "enterprise3",
+      "name": "招商银行",
+      "category": "enterprise",
+      "value": 70,
+      "x": 0,
+      "y": 150
+    },
+    {
+      "id": "teacher1",
+      "name": "张教授",
+      "category": "teacher",
+      "value": 60,
+      "x": -100,
+      "y": -80
+    },
+    {
+      "id": "teacher2",
+      "name": "李教授",
+      "category": "teacher",
+      "value": 60,
+      "x": 100,
+      "y": -80
+    },
+    {
+      "id": "student-group1",
+      "name": "风险管理组",
+      "category": "student",
+      "value": 50,
+      "x": -200,
+      "y": -50
+    },
+    {
+      "id": "student-group2",
+      "name": "数据分析组",
+      "category": "student",
+      "value": 50,
+      "x": 200,
+      "y": -50
+    },
+    {
+      "id": "project1",
+      "name": "风控建模项目",
+      "category": "project",
+      "value": 40,
+      "x": -150,
+      "y": 50
+    },
+    {
+      "id": "project2",
+      "name": "数据分析项目",
+      "category": "project",
+      "value": 40,
+      "x": 150,
+      "y": 50
+    },
+    {
+      "id": "resource1",
+      "name": "课程资源库",
+      "category": "resource",
+      "value": 30,
+      "x": 0,
+      "y": -150
+    }
+  ],
+  "links": [
+    { "source": "school", "target": "enterprise1", "relation": "合作" },
+    { "source": "school", "target": "enterprise2", "relation": "合作" },
+    { "source": "school", "target": "enterprise3", "relation": "合作" },
+    { "source": "school", "target": "teacher1", "relation": "管理" },
+    { "source": "school", "target": "teacher2", "relation": "管理" },
+    { "source": "teacher1", "target": "student-group1", "relation": "指导" },
+    { "source": "teacher2", "target": "student-group2", "relation": "指导" },
+    { "source": "enterprise1", "target": "project1", "relation": "提供" },
+    { "source": "enterprise2", "target": "project2", "relation": "提供" },
+    { "source": "student-group1", "target": "project1", "relation": "参与" },
+    { "source": "student-group2", "target": "project2", "relation": "参与" },
+    { "source": "school", "target": "resource1", "relation": "管理" }
+  ]
+}
+

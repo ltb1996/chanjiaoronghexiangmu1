@@ -1,0 +1,71 @@
+{
+  "categories": [
+    {
+      "id": "course",
+      "name": "课程模块",
+      "icon": "Document",
+      "items": [
+        {
+          "id": "course1",
+          "title": "金融风险管理基础",
+          "type": "课程",
+          "description": "系统介绍金融风险管理的基本理论和方法",
+          "duration": "32课时"
+        },
+        {
+          "id": "course2",
+          "title": "金融数据分析实战",
+          "type": "课程",
+          "description": "运用Python进行金融数据处理与分析",
+          "duration": "40课时"
+        }
+      ]
+    },
+    {
+      "id": "position",
+      "name": "岗位要求",
+      "icon": "User",
+      "items": [
+        {
+          "id": "pos1",
+          "title": "金融风控分析师",
+          "requirements": ["风险管理知识", "数据分析能力", "Python编程"],
+          "salary": "8-15K"
+        },
+        {
+          "id": "pos2",
+          "title": "金融产品经理",
+          "requirements": ["产品设计能力", "市场分析", "项目管理"],
+          "salary": "10-20K"
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "name": "政策文件",
+      "icon": "Document",
+      "items": [
+        {
+          "id": "policy1",
+          "title": "产教融合政策解读",
+          "type": "政策",
+          "description": "国家关于产教融合的最新政策文件"
+        }
+      ]
+    },
+    {
+      "id": "case",
+      "name": "案例库",
+      "icon": "FolderOpened",
+      "items": [
+        {
+          "id": "case1",
+          "title": "银行风控模型构建案例",
+          "type": "案例",
+          "description": "某银行风控模型的实际构建过程"
+        }
+      ]
+    }
+  ]
+}
+
