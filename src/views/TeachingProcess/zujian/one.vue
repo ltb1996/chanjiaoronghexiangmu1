@@ -221,14 +221,10 @@ export default {
   setup() {
     const router = useRouter();
     const quiz1 = ref("");
-    const studyStartTime = ref(null);
     const isCompleted = ref(false);
 
-    // 记录学习开始时间
+    // 检查是否已经完成过
     onMounted(() => {
-      studyStartTime.value = Date.now();
-      
-      // 检查是否已经完成过
       const progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
       if (progress.stepTasks && progress.stepTasks['step0']?.completed) {
         isCompleted.value = true;
@@ -246,18 +242,12 @@ export default {
           type: 'success'
         }
       ).then(() => {
-        // 计算学习时长（小时）
-        const studyDuration = studyStartTime.value 
-          ? Math.round((Date.now() - studyStartTime.value) / 1000 / 60 / 60 * 10) / 10 
-          : 0.5; // 默认0.5小时
-
         // 从 localStorage 获取当前进度
         let progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
         
         // 更新进度数据
         progress.completedSteps = Math.max(progress.completedSteps || 0, 1); // 完成第一步
         progress.currentStep = Math.max(progress.currentStep || 0, 1); // 当前在第二步
-        progress.totalTime = (progress.totalTime || 0) + studyDuration; // 累加学习时长
         
         // 标记第一步的所有任务为已完成
         if (!progress.stepTasks) {

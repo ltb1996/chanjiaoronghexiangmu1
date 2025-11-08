@@ -483,11 +483,6 @@ export default {
             currentStep.value = progress.currentStep;
           }
 
-          // 更新学习时长
-          if (progress.totalTime !== undefined) {
-            totalTime.value = progress.totalTime;
-          }
-
           // 更新任务完成状态
           if (progress.stepTasks) {
             Object.keys(progress.stepTasks).forEach((stepKey) => {
@@ -502,6 +497,9 @@ export default {
               }
             });
           }
+
+          // 学习时长直接等于完成的步骤数
+          totalTime.value = progress.completedSteps || 0;
 
           return;
         } catch (e) {
