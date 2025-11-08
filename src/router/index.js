@@ -7,6 +7,7 @@ import TeachingProcess from '../views/TeachingProcess/index.vue'
 import TeachingProcessOne from '../views/TeachingProcess/zujian/one.vue'
 import TeachingProcessTwo from '../views/TeachingProcess/zujian/two.vue'
 import TeachingProcessThree from '../views/TeachingProcess/zujian/three.vue'
+import TeachingProcessFour from '../views/TeachingProcess/zujian/four.vue'
 import ResourceLibrary from '../views/ResourceLibrary/index.vue'
 
 const routes = [
@@ -76,6 +77,14 @@ const routes = [
     component: TeachingProcessThree,
     meta: {
       title: '第三步：风险管理与控制'
+    }
+  },
+  {
+    path: '/teaching-process/four',
+    name: 'TeachingProcessFour',
+    component: TeachingProcessFour,
+    meta: {
+      title: '第四步：金融科技应用'
     }
   },
   {
