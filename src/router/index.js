@@ -8,6 +8,7 @@ import TeachingProcessOne from '../views/TeachingProcess/zujian/one.vue'
 import TeachingProcessTwo from '../views/TeachingProcess/zujian/two.vue'
 import TeachingProcessThree from '../views/TeachingProcess/zujian/three.vue'
 import TeachingProcessFour from '../views/TeachingProcess/zujian/four.vue'
+import TeachingProcessFive from '../views/TeachingProcess/zujian/five.vue'
 import ResourceLibrary from '../views/ResourceLibrary/index.vue'
 
 const routes = [
@@ -85,6 +86,14 @@ const routes = [
     component: TeachingProcessFour,
     meta: {
       title: '第四步：金融科技应用'
+    }
+  },
+  {
+    path: '/teaching-process/five',
+    name: 'TeachingProcessFive',
+    component: TeachingProcessFive,
+    meta: {
+      title: '第五步：客户服务与营销'
     }
   },
   {
