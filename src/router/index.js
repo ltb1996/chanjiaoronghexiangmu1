@@ -6,6 +6,7 @@ import EcosystemMap from '../views/EcosystemMap/index.vue'
 import TeachingProcess from '../views/TeachingProcess/index.vue'
 import TeachingProcessOne from '../views/TeachingProcess/zujian/one.vue'
 import TeachingProcessTwo from '../views/TeachingProcess/zujian/two.vue'
+import TeachingProcessThree from '../views/TeachingProcess/zujian/three.vue'
 import ResourceLibrary from '../views/ResourceLibrary/index.vue'
 
 const routes = [
@@ -67,6 +68,14 @@ const routes = [
     component: TeachingProcessTwo,
     meta: {
       title: '第二步：金融产品与服务'
+    }
+  },
+  {
+    path: '/teaching-process/three',
+    name: 'TeachingProcessThree',
+    component: TeachingProcessThree,
+    meta: {
+      title: '第三步：风险管理与控制'
     }
   },
   {
