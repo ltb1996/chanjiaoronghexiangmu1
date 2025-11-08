@@ -261,12 +261,20 @@
         <!-- 底部导航 -->
         <div class="bottom-nav">
           <div class="nav-buttons">
-            <el-button @click="prevChapter">
+            <el-button size="large" @click="prevChapter">
               <el-icon><ArrowLeft /></el-icon>
-              上一步：金融基础知识
+              上一章：金融基础知识
             </el-button>
-            <el-button type="primary" @click="nextChapter">
-              下一步：风险管理与控制
+            <el-button 
+              type="success" 
+              size="large" 
+              class="wanchengbtn"
+              @click="completeStudy"
+            >
+              ✓ 完成本章学习
+            </el-button>
+            <el-button size="large" type="primary" @click="nextChapter">
+              下一章：风险管理与控制
               <el-icon><ArrowRight /></el-icon>
             </el-button>
           </div>
@@ -277,9 +285,9 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue";
 
 export default {
@@ -291,20 +299,75 @@ export default {
   setup() {
     const router = useRouter();
     const quiz1 = ref("");
+    const isCompleted = ref(false);
+
+    // 检查是否已经完成过
+    onMounted(() => {
+      const progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
+      if (progress.stepTasks && progress.stepTasks['step1']?.completed) {
+        isCompleted.value = true;
+      }
+    });
+
+    // 完成本章学习
+    const completeStudy = () => {
+      ElMessageBox.confirm(
+        '确认已完成本章所有内容的学习吗？',
+        '完成学习',
+        {
+          confirmButtonText: '确认完成',
+          cancelButtonText: '继续学习',
+          type: 'success'
+        }
+      ).then(() => {
+        // 从 localStorage 获取当前进度
+        let progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
+        
+        // 更新进度数据（在第一步的基础上叠加）
+        progress.completedSteps = Math.max(progress.completedSteps || 0, 2); // 完成第二步
+        progress.currentStep = Math.max(progress.currentStep || 0, 2); // 当前在第三步
+        
+        // 标记第二步的所有任务为已完成
+        if (!progress.stepTasks) {
+          progress.stepTasks = {};
+        }
+        progress.stepTasks['step1'] = {
+          completed: true,
+          completedCount: 8, // 第二步有8个任务
+          totalCount: 8
+        };
+
+        // 保存到 localStorage
+        localStorage.setItem('teachingProgress', JSON.stringify(progress));
+        
+        isCompleted.value = true;
+        
+        ElMessage.success({
+          message: '恭喜完成第二章学习！进度已保存',
+          duration: 2000
+        });
+        
+        // 2秒后返回教学过程页面
+        setTimeout(() => {
+          router.push("/teaching-process");
+        }, 2000);
+      }).catch(() => {
+        ElMessage.info('继续学习中...');
+      });
+    };
 
     const prevChapter = () => {
       router.push("/teaching-process/one");
     };
 
     const nextChapter = () => {
-      ElMessage.success("即将进入下一步学习！");
-      setTimeout(() => {
-        router.push("/teaching-process/three");
-      }, 1000);
+      router.push("/teaching-process/three");
     };
 
     return {
       quiz1,
+      isCompleted,
+      completeStudy,
       prevChapter,
       nextChapter,
     };
@@ -599,6 +662,10 @@ export default {
   display: flex;
   justify-content: space-between;
   gap: 15px;
+  flex-wrap: wrap;
+}
+.wanchengbtn {
+  transform: translateX(135px);
 }
 
 @media (max-width: 768px) {

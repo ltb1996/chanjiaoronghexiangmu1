@@ -187,7 +187,6 @@
               type="success" 
               size="large" 
               @click="completeStudy"
-              :icon="'CircleCheck'"
             >
               ✓ 完成本章学习
             </el-button>
