@@ -4,6 +4,7 @@ import TeachingSystem from '../views/TeachingSystem/index.vue'
 import ProjectShowcase from '../views/ProjectShowcase/index.vue'
 import EcosystemMap from '../views/EcosystemMap/index.vue'
 import TeachingProcess from '../views/TeachingProcess/index.vue'
+import TeachingProcessOne from '../views/TeachingProcess/zujian/one.vue'
 import ResourceLibrary from '../views/ResourceLibrary/index.vue'
 
 const routes = [
@@ -49,6 +50,14 @@ const routes = [
     component: TeachingProcess,
     meta: {
       title: '实训教学过程模拟'
+    }
+  },
+  {
+    path: '/teaching-process/one',
+    name: 'TeachingProcessOne',
+    component: TeachingProcessOne,
+    meta: {
+      title: '第一步：金融基础知识学习'
     }
   },
   {

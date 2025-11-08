@@ -52,9 +52,18 @@
         <el-step
           v-for="(step, index) in teachingSteps"
           :key="index"
-          :title="step.title"
-          :description="step.description"
         >
+          <template #title>
+            <div class="step-title-wrapper">
+              <span>{{ step.title }}</span>
+              <button class="detail-btn" @click="goToDetailPage(index)">
+                进入详细学习 →
+              </button>
+            </div>
+          </template>
+          <template #description>
+            <span>{{ step.description }}</span>
+          </template>
           <template #icon>
             <el-icon v-if="index < currentStep" color="#67C23A">
               <CircleCheck />
@@ -77,23 +86,26 @@
               <div class="step-info">
                 <div class="step-header">
                   <h4>{{ step.title }}</h4>
-                  <div class="step-meta">
-                    <el-tag size="small" type="info">{{ step.duration }}</el-tag>
-                    <el-tag
-                      size="small"
-                      :type="getDifficultyType(step.difficulty)"
-                    >
-                      {{ step.difficulty }}
-                    </el-tag>
-                    <el-tag
-                      size="small"
-                      :type="index < currentStep ? 'success' : index === currentStep ? 'primary' : 'info'"
-                    >
-                      {{ index < currentStep ? '已完成' : index === currentStep ? '进行中' : '未开始' }}
-                    </el-tag>
-                  </div>
+                  <button class="detail-btn" @click="goToDetailPage(index)">
+                    进入详细学习 →
+                  </button>
                 </div>
                 <p>{{ step.description }}</p>
+                <div class="step-tags">
+                  <el-tag size="small" type="info">{{ step.duration }}</el-tag>
+                  <el-tag
+                    size="small"
+                    :type="getDifficultyType(step.difficulty)"
+                  >
+                    {{ step.difficulty }}
+                  </el-tag>
+                  <el-tag
+                    size="small"
+                    :type="index < currentStep ? 'success' : index === currentStep ? 'primary' : 'info'"
+                  >
+                    {{ index < currentStep ? '已完成' : index === currentStep ? '进行中' : '未开始' }}
+                  </el-tag>
+                </div>
 
                 <div class="step-progress-info">
                   <span class="task-count">
@@ -171,6 +183,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { CircleCheck, VideoPlay, Clock } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
 import { progressStorage } from '../../utils/storage'
 
 export default {
@@ -181,6 +194,7 @@ export default {
     Clock
   },
   setup() {
+    const router = useRouter()
     const currentStep = ref(0)
     const totalTime = ref(0)
 
@@ -355,6 +369,15 @@ export default {
       }
     }
 
+    // 跳转到详细页面
+    function goToDetailPage(stepIndex) {
+      const stepPaths = ['one', 'two', 'three', 'four', 'five', 'six']
+      const path = stepPaths[stepIndex]
+      if (path) {
+        router.push(`/teaching-process/${path}`)
+      }
+    }
+
     // 检查步骤是否完成
     function isStepCompleted(index) {
       const step = teachingSteps.value[index]
@@ -447,6 +470,7 @@ export default {
       estimatedRemainingTime,
       getStepProgressColor,
       getDifficultyType,
+      goToDetailPage,
       teachingSteps,
       isStepCompleted,
       updateStepProgress,
@@ -526,6 +550,18 @@ export default {
   margin-bottom: 20px;
 }
 
+.step-title-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+.step-title-wrapper span {
+  flex: 1 !important;
+}
+
 .step-content {
   margin-top: 10px;
   margin-bottom: 20px;
@@ -545,8 +581,8 @@ export default {
 .step-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .step-header h4 {
@@ -556,11 +592,38 @@ export default {
   flex: 1;
 }
 
-.step-meta {
+.detail-btn {
+  padding: 8px 16px !important;
+  background: #409eff !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  outline: none !important;
+}
+
+.detail-btn:hover {
+  background: #66b1ff !important;
+  transform: translateX(2px) !important;
+}
+
+.detail-btn:active {
+  background: #3a8ee6 !important;
+}
+
+.step-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  margin-bottom: 15px;
 }
 
 .step-info p {

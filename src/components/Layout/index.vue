@@ -115,7 +115,9 @@ export default {
       sidebarCollapsed,
       activeMenu,
       currentTitle,
-      toggleSidebar
+      toggleSidebar,
+      Expand,
+      Fold
     }
   }
 }
