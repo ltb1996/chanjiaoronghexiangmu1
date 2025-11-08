@@ -526,7 +526,7 @@ export default {
 .nav-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
+  /* gap: 15px; */
   flex-wrap: wrap;
 }
 
