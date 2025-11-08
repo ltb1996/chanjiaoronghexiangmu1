@@ -183,8 +183,20 @@
         <!-- 底部导航 -->
         <div class="bottom-nav">
           <div class="nav-buttons">
-            <el-button type="primary" size="large" @click="nextChapter">
-              下一章：金融机构体系
+            <el-button 
+              type="success" 
+              size="large" 
+              @click="completeStudy"
+              :icon="'CircleCheck'"
+            >
+              ✓ 完成本章学习
+            </el-button>
+            <el-button 
+              type="primary" 
+              size="large" 
+              @click="nextChapter"
+            >
+              下一章：金融产品与服务
               <el-icon><ArrowRight /></el-icon>
             </el-button>
           </div>
@@ -195,9 +207,9 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue";
 
 export default {
@@ -209,17 +221,82 @@ export default {
   setup() {
     const router = useRouter();
     const quiz1 = ref("");
+    const studyStartTime = ref(null);
+    const isCompleted = ref(false);
 
+    // 记录学习开始时间
+    onMounted(() => {
+      studyStartTime.value = Date.now();
+      
+      // 检查是否已经完成过
+      const progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
+      if (progress.stepTasks && progress.stepTasks['step0']?.completed) {
+        isCompleted.value = true;
+      }
+    });
+
+    // 完成本章学习
+    const completeStudy = () => {
+      ElMessageBox.confirm(
+        '确认已完成本章所有内容的学习吗？',
+        '完成学习',
+        {
+          confirmButtonText: '确认完成',
+          cancelButtonText: '继续学习',
+          type: 'success'
+        }
+      ).then(() => {
+        // 计算学习时长（小时）
+        const studyDuration = studyStartTime.value 
+          ? Math.round((Date.now() - studyStartTime.value) / 1000 / 60 / 60 * 10) / 10 
+          : 0.5; // 默认0.5小时
+
+        // 从 localStorage 获取当前进度
+        let progress = JSON.parse(localStorage.getItem('teachingProgress') || '{}');
+        
+        // 更新进度数据
+        progress.completedSteps = Math.max(progress.completedSteps || 0, 1); // 完成第一步
+        progress.currentStep = Math.max(progress.currentStep || 0, 1); // 当前在第二步
+        progress.totalTime = (progress.totalTime || 0) + studyDuration; // 累加学习时长
+        
+        // 标记第一步的所有任务为已完成
+        if (!progress.stepTasks) {
+          progress.stepTasks = {};
+        }
+        progress.stepTasks['step0'] = {
+          completed: true,
+          completedCount: 8, // 第一步有8个任务
+          totalCount: 8
+        };
+
+        // 保存到 localStorage
+        localStorage.setItem('teachingProgress', JSON.stringify(progress));
+        
+        isCompleted.value = true;
+        
+        ElMessage.success({
+          message: '恭喜完成第一章学习！进度已保存',
+          duration: 2000
+        });
+        
+        // 2秒后返回教学过程页面
+        setTimeout(() => {
+          router.push("/teaching-process");
+        }, 2000);
+      }).catch(() => {
+        ElMessage.info('继续学习中...');
+      });
+    };
+
+    // 直接进入下一章（不标记完成）
     const nextChapter = () => {
-      ElMessage.success("即将进入下一章学习！");
-      // 这里可以添加保存学习进度的逻辑
-      setTimeout(() => {
-        router.push("/teaching-process/two");
-      }, 1000);
+      router.push("/teaching-process/two");
     };
 
     return {
       quiz1,
+      isCompleted,
+      completeStudy,
       nextChapter,
     };
   },
@@ -459,7 +536,9 @@ export default {
 
 .nav-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {

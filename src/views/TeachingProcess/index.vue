@@ -5,7 +5,9 @@
       <template #header>
         <div class="card-header">
           <span>学习进度总览</span>
-          <el-button size="small" type="danger" @click="resetProgress">重置进度</el-button>
+          <el-button size="small" type="danger" @click="resetProgress"
+            >重置进度</el-button
+          >
         </div>
       </template>
       <div class="progress-stats">
@@ -22,7 +24,9 @@
             <div class="stat-label">已完成步骤</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number">{{ totalCompletedTasks }}/{{ totalTasks }}</div>
+            <div class="stat-number">
+              {{ totalCompletedTasks }}/{{ totalTasks }}
+            </div>
             <div class="stat-label">已完成任务</div>
           </div>
           <div class="stat-card">
@@ -49,10 +53,7 @@
         direction="vertical"
         class="teaching-steps"
       >
-        <el-step
-          v-for="(step, index) in teachingSteps"
-          :key="index"
-        >
+        <el-step v-for="(step, index) in teachingSteps" :key="index">
           <template #title>
             <div class="step-title-wrapper">
               <span>{{ step.title }}</span>
@@ -77,10 +78,13 @@
           </template>
           <template #default>
             <el-card
-              :class="['step-content', {
-                'current-step': index === currentStep,
-                'completed-step': index < currentStep
-              }]"
+              :class="[
+                'step-content',
+                {
+                  'current-step': index === currentStep,
+                  'completed-step': index < currentStep,
+                },
+              ]"
               shadow="hover"
             >
               <div class="step-info">
@@ -101,15 +105,29 @@
                   </el-tag>
                   <el-tag
                     size="small"
-                    :type="index < currentStep ? 'success' : index === currentStep ? 'primary' : 'info'"
+                    :type="
+                      index < currentStep
+                        ? 'success'
+                        : index === currentStep
+                        ? 'primary'
+                        : 'info'
+                    "
                   >
-                    {{ index < currentStep ? '已完成' : index === currentStep ? '进行中' : '未开始' }}
+                    {{
+                      index < currentStep
+                        ? "已完成"
+                        : index === currentStep
+                        ? "进行中"
+                        : "未开始"
+                    }}
                   </el-tag>
                 </div>
 
                 <div class="step-progress-info">
                   <span class="task-count">
-                    任务进度: {{ step.taskStatus.filter(s => s).length }}/{{ step.tasks.length }}
+                    任务进度: {{ step.taskStatus.filter((s) => s).length }}/{{
+                      step.tasks.length
+                    }}
                   </span>
                   <el-progress
                     :percentage="stepProgress[index]"
@@ -126,10 +144,14 @@
                     <li
                       v-for="(task, idx) in step.tasks"
                       :key="idx"
-                      :class="['task-item', {
-                        'task-completed': step.taskStatus[idx],
-                        'task-current': index === currentStep && !step.taskStatus[idx]
-                      }]"
+                      :class="[
+                        'task-item',
+                        {
+                          'task-completed': step.taskStatus[idx],
+                          'task-current':
+                            index === currentStep && !step.taskStatus[idx],
+                        },
+                      ]"
                     >
                       <el-checkbox
                         v-model="step.taskStatus[idx]"
@@ -161,11 +183,7 @@
                     <el-icon><CircleCheck /></el-icon>
                     已完成
                   </el-button>
-                  <el-button
-                    v-if="index > currentStep"
-                    size="small"
-                    disabled
-                  >
+                  <el-button v-if="index > currentStep" size="small" disabled>
                     <el-icon><Clock /></el-icon>
                     未开始
                   </el-button>
@@ -180,282 +198,331 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import { CircleCheck, VideoPlay, Clock } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { progressStorage } from '../../utils/storage'
+import { ref, computed, onMounted } from "vue";
+import { CircleCheck, VideoPlay, Clock } from "@element-plus/icons-vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { useRouter } from "vue-router";
+import { progressStorage } from "../../utils/storage";
 
 export default {
-  name: 'TeachingProcess',
+  name: "TeachingProcess",
   components: {
     CircleCheck,
     VideoPlay,
-    Clock
+    Clock,
   },
   setup() {
-    const router = useRouter()
-    const currentStep = ref(0)
-    const totalTime = ref(0)
+    const router = useRouter();
+    const currentStep = ref(0);
+    const totalTime = ref(0);
 
     // 教学步骤数据
     const teachingSteps = ref([
       {
-        title: '第一步：金融基础知识学习',
-        description: '系统掌握金融基础理论知识，建立专业知识框架',
-        duration: '2周',
-        difficulty: '初级',
+        title: "第一步：金融基础知识学习",
+        description: "系统掌握金融基础理论知识，建立专业知识框架",
+        duration: "2周",
+        difficulty: "初级",
         tasks: [
-          '1.1 学习金融学基础：货币、利率、通货膨胀、汇率等基本概念',
-          '1.2 掌握金融机构体系：商业银行、投资银行、中央银行等职能和运作',
-          '1.3 了解金融市场：股票市场、债券市场、衍生品市场等组成和功能',
-          '1.4 学习财务报表分析：资产负债表、利润表、现金流量表解读',
-          '1.5 掌握基本财务指标：流动性比率、杠杆比率、盈利能力指标计算',
-          '1.6 完成金融基础知识在线测试（85分以上）'
+          "1.1 学习金融学基础：货币、利率、通货膨胀、汇率等基本概念",
+          "1.2 掌握金融机构体系：商业银行、投资银行、中央银行等职能和运作",
+          "1.3 了解金融市场：股票市场、债券市场、衍生品市场等组成和功能",
+          "1.4 学习财务报表分析：资产负债表、利润表、现金流量表解读",
+          "1.5 掌握基本财务指标：流动性比率、杠杆比率、盈利能力指标计算",
+          "1.6 完成金融基础知识在线测试（85分以上）",
         ],
-        taskStatus: [false, false, false, false, false, false]
+        taskStatus: [false, false, false, false, false, false],
       },
       {
-        title: '第二步：金融产品与服务',
-        description: '深入了解各类金融产品和服务，掌握业务操作流程',
-        duration: '3周',
-        difficulty: '初级',
+        title: "第二步：金融产品与服务",
+        description: "深入了解各类金融产品和服务，掌握业务操作流程",
+        duration: "3周",
+        difficulty: "初级",
         tasks: [
-          '2.1 学习存款与贷款业务：储蓄存款、活期存款、定期存款产品介绍',
-          '2.2 掌握支付结算服务：汇款、转账、代收代付等支付业务流程',
-          '2.3 了解投资理财产品：基金、保险、信托等金融产品的特点和风险',
-          '2.4 学习外汇与国际业务：外汇交易、国际结算、贸易融资业务',
-          '2.5 掌握信用卡业务：信用卡发行、使用、还款、风险管理',
-          '2.6 了解消费金融产品：消费贷款、分期付款、现金贷等业务模式',
-          '2.7 学习企业金融服务：公司贷款、贸易融资、供应链金融',
-          '2.8 完成金融产品知识实操演练'
+          "2.1 学习存款与贷款业务：储蓄存款、活期存款、定期存款产品介绍",
+          "2.2 掌握支付结算服务：汇款、转账、代收代付等支付业务流程",
+          "2.3 了解投资理财产品：基金、保险、信托等金融产品的特点和风险",
+          "2.4 学习外汇与国际业务：外汇交易、国际结算、贸易融资业务",
+          "2.5 掌握信用卡业务：信用卡发行、使用、还款、风险管理",
+          "2.6 了解消费金融产品：消费贷款、分期付款、现金贷等业务模式",
+          "2.7 学习企业金融服务：公司贷款、贸易融资、供应链金融",
+          "2.8 完成金融产品知识实操演练",
         ],
-        taskStatus: [false, false, false, false, false, false, false, false]
+        taskStatus: [false, false, false, false, false, false, false, false],
       },
       {
-        title: '第三步：风险管理与控制',
-        description: '掌握金融风险识别、评估和控制的方法与策略',
-        duration: '3周',
-        difficulty: '中级',
+        title: "第三步：风险管理与控制",
+        description: "掌握金融风险识别、评估和控制的方法与策略",
+        duration: "3周",
+        difficulty: "中级",
         tasks: [
-          '3.1 学习信用风险管理：信用评估、授信审批、担保方式',
-          '3.2 掌握市场风险控制：利率风险、汇率风险、股价风险管理',
-          '3.3 了解操作风险防范：内部控制、业务流程优化、差错处理',
-          '3.4 学习流动性风险管理：资金调度、现金流预测、应急预案',
-          '3.5 掌握反洗钱与合规要求：客户身份识别、可疑交易报告',
-          '3.6 了解金融欺诈防范：常见欺诈手段识别与应对策略',
-          '3.7 学习风险量化方法：VaR模型、压力测试、情景分析',
-          '3.8 完成风险管理案例分析与方案设计'
+          "3.1 学习信用风险管理：信用评估、授信审批、担保方式",
+          "3.2 掌握市场风险控制：利率风险、汇率风险、股价风险管理",
+          "3.3 了解操作风险防范：内部控制、业务流程优化、差错处理",
+          "3.4 学习流动性风险管理：资金调度、现金流预测、应急预案",
+          "3.5 掌握反洗钱与合规要求：客户身份识别、可疑交易报告",
+          "3.6 了解金融欺诈防范：常见欺诈手段识别与应对策略",
+          "3.7 学习风险量化方法：VaR模型、压力测试、情景分析",
+          "3.8 完成风险管理案例分析与方案设计",
         ],
-        taskStatus: [false, false, false, false, false, false, false, false]
+        taskStatus: [false, false, false, false, false, false, false, false],
       },
       {
-        title: '第四步：金融科技应用',
-        description: '了解金融科技发展趋势，掌握数字化转型技能',
-        duration: '4周',
-        difficulty: '中级',
+        title: "第四步：金融科技应用",
+        description: "了解金融科技发展趋势，掌握数字化转型技能",
+        duration: "4周",
+        difficulty: "中级",
         tasks: [
-          '4.1 学习大数据金融：客户画像分析、风险预测模型',
-          '4.2 掌握人工智能应用：智能客服、智能风控、投资顾问',
-          '4.3 了解区块链金融：数字货币、供应链金融、智能合约',
-          '4.4 学习移动金融服务：移动支付、手机银行、数字化营销',
-          '4.5 掌握API金融服务：开放银行、第三方接入、生态合作',
-          '4.6 了解监管科技（RegTech）：合规自动化、风险监测',
-          '4.7 学习数字货币与支付：央行数字货币、电子支付创新',
-          '4.8 完成金融科技应用项目设计与演示'
+          "4.1 学习大数据金融：客户画像分析、风险预测模型",
+          "4.2 掌握人工智能应用：智能客服、智能风控、投资顾问",
+          "4.3 了解区块链金融：数字货币、供应链金融、智能合约",
+          "4.4 学习移动金融服务：移动支付、手机银行、数字化营销",
+          "4.5 掌握API金融服务：开放银行、第三方接入、生态合作",
+          "4.6 了解监管科技（RegTech）：合规自动化、风险监测",
+          "4.7 学习数字货币与支付：央行数字货币、电子支付创新",
+          "4.8 完成金融科技应用项目设计与演示",
         ],
-        taskStatus: [false, false, false, false, false, false, false, false]
+        taskStatus: [false, false, false, false, false, false, false, false],
       },
       {
-        title: '第五步：客户服务与营销',
-        description: '掌握金融客户服务技能和营销策略，提升业务拓展能力',
-        duration: '3周',
-        difficulty: '中级',
+        title: "第五步：客户服务与营销",
+        description: "掌握金融客户服务技能和营销策略，提升业务拓展能力",
+        duration: "3周",
+        difficulty: "中级",
         tasks: [
-          '5.1 学习客户关系管理：客户分类、分层服务、忠诚度维护',
-          '5.2 掌握销售技巧：产品推荐、异议处理、成交技巧',
-          '5.3 了解客户体验设计：服务流程优化、数字化服务创新',
-          '5.4 学习营销策略：精准营销、交叉销售、客户生命周期管理',
-          '5.5 掌握投诉处理技能：投诉接待、问题解决、客户挽留',
-          '5.6 了解金融产品营销：理财产品推广、信用卡营销策略',
-          '5.7 学习团队协作：业务配合、资源共享、绩效考核',
-          '5.8 完成客户服务模拟演练与营销方案设计'
+          "5.1 学习客户关系管理：客户分类、分层服务、忠诚度维护",
+          "5.2 掌握销售技巧：产品推荐、异议处理、成交技巧",
+          "5.3 了解客户体验设计：服务流程优化、数字化服务创新",
+          "5.4 学习营销策略：精准营销、交叉销售、客户生命周期管理",
+          "5.5 掌握投诉处理技能：投诉接待、问题解决、客户挽留",
+          "5.6 了解金融产品营销：理财产品推广、信用卡营销策略",
+          "5.7 学习团队协作：业务配合、资源共享、绩效考核",
+          "5.8 完成客户服务模拟演练与营销方案设计",
         ],
-        taskStatus: [false, false, false, false, false, false, false, false]
+        taskStatus: [false, false, false, false, false, false, false, false],
       },
       {
-        title: '第六步：综合实训与评估',
-        description: '通过综合案例分析和项目实践，检验学习成果',
-        duration: '4周',
-        difficulty: '高级',
+        title: "第六步：综合实训与评估",
+        description: "通过综合案例分析和项目实践，检验学习成果",
+        duration: "4周",
+        difficulty: "高级",
         tasks: [
-          '6.1 完成综合业务模拟：从客户接待到业务办理全流程操作',
-          '6.2 进行案例分析练习：典型金融案例分析与解决方案设计',
-          '6.3 参与团队项目实训：小组项目策划、实施、成果展示',
-          '6.4 掌握应急处理能力：突发事件应对、危机公关处理',
-          '6.5 学习业务创新思维：金融产品创新、服务模式创新',
-          '6.6 完成职业技能考核：理论测试、实操考核、综合评估',
-          '6.7 撰写学习总结报告：学习心得、技能提升、职业规划',
-          '6.8 参加结业成果汇报：项目展示、答辩评审、证书颁发'
+          "6.1 完成综合业务模拟：从客户接待到业务办理全流程操作",
+          "6.2 进行案例分析练习：典型金融案例分析与解决方案设计",
+          "6.3 参与团队项目实训：小组项目策划、实施、成果展示",
+          "6.4 掌握应急处理能力：突发事件应对、危机公关处理",
+          "6.5 学习业务创新思维：金融产品创新、服务模式创新",
+          "6.6 完成职业技能考核：理论测试、实操考核、综合评估",
+          "6.7 撰写学习总结报告：学习心得、技能提升、职业规划",
+          "6.8 参加结业成果汇报：项目展示、答辩评审、证书颁发",
         ],
-        taskStatus: [false, false, false, false, false, false, false, false]
-      }
-    ])
+        taskStatus: [false, false, false, false, false, false, false, false],
+      },
+    ]);
 
     // 总步骤数
-    const totalSteps = computed(() => teachingSteps.value.length)
+    const totalSteps = computed(() => teachingSteps.value.length);
 
     // 已完成步骤数
-    const completedSteps = computed(() => currentStep.value)
+    const completedSteps = computed(() => currentStep.value);
 
     // 总体进度
     const overallProgress = computed(() => {
-      return Math.round((completedSteps.value / totalSteps.value) * 100)
-    })
+      return Math.round((completedSteps.value / totalSteps.value) * 100);
+    });
 
     // 进度条颜色
     const progressColor = computed(() => {
-      const progress = overallProgress.value
-      if (progress < 30) return '#F56C6C'
-      if (progress < 70) return '#E6A23C'
-      return '#67C23A'
-    })
+      const progress = overallProgress.value;
+      if (progress < 30) return "#F56C6C";
+      if (progress < 70) return "#E6A23C";
+      return "#67C23A";
+    });
 
     // 总任务数
     const totalTasks = computed(() => {
-      return teachingSteps.value.reduce((total, step) => total + step.tasks.length, 0)
-    })
+      return teachingSteps.value.reduce(
+        (total, step) => total + step.tasks.length,
+        0
+      );
+    });
 
     // 已完成任务数
     const totalCompletedTasks = computed(() => {
       return teachingSteps.value.reduce((total, step) => {
-        return total + step.taskStatus.filter(status => status === true).length
-      }, 0)
-    })
+        return (
+          total + step.taskStatus.filter((status) => status === true).length
+        );
+      }, 0);
+    });
 
     // 各步骤进度
     const stepProgress = computed(() => {
-      return teachingSteps.value.map(step => {
-        const completedCount = step.taskStatus.filter(status => status === true).length
-        return Math.round((completedCount / step.tasks.length) * 100)
-      })
-    })
+      return teachingSteps.value.map((step) => {
+        const completedCount = step.taskStatus.filter(
+          (status) => status === true
+        ).length;
+        return Math.round((completedCount / step.tasks.length) * 100);
+      });
+    });
 
     // 预计剩余时间（周）
     const estimatedRemainingTime = computed(() => {
-      const remainingSteps = teachingSteps.value.slice(currentStep.value)
+      const remainingSteps = teachingSteps.value.slice(currentStep.value);
       const totalWeeks = remainingSteps.reduce((total, step) => {
-        return total + parseInt(step.duration)
-      }, 0)
-      return totalWeeks
-    })
+        return total + parseInt(step.duration);
+      }, 0);
+      return totalWeeks;
+    });
 
     // 步骤进度颜色
     function getStepProgressColor(progress) {
-      if (progress === 0) return '#DCDFE6'
-      if (progress < 30) return '#F56C6C'
-      if (progress < 70) return '#E6A23C'
-      if (progress < 100) return '#409EFF'
-      return '#67C23A'
+      if (progress === 0) return "#DCDFE6";
+      if (progress < 30) return "#F56C6C";
+      if (progress < 70) return "#E6A23C";
+      if (progress < 100) return "#409EFF";
+      return "#67C23A";
     }
 
     // 难度标签类型
     function getDifficultyType(difficulty) {
       switch (difficulty) {
-        case '初级': return 'success'
-        case '中级': return 'warning'
-        case '高级': return 'danger'
-        default: return 'info'
+        case "初级":
+          return "success";
+        case "中级":
+          return "warning";
+        case "高级":
+          return "danger";
+        default:
+          return "info";
       }
     }
 
     // 跳转到详细页面
     function goToDetailPage(stepIndex) {
-      const stepPaths = ['one', 'two', 'three', 'four', 'five', 'six']
-      const path = stepPaths[stepIndex]
+      const stepPaths = ["one", "two", "three", "four", "five", "six"];
+      const path = stepPaths[stepIndex];
       if (path) {
-        router.push(`/teaching-process/${path}`)
+        router.push(`/teaching-process/${path}`);
       }
     }
 
     // 检查步骤是否完成
     function isStepCompleted(index) {
-      const step = teachingSteps.value[index]
-      return step.taskStatus.every(status => status === true)
+      const step = teachingSteps.value[index];
+      return step.taskStatus.every((status) => status === true);
     }
 
     // 更新步骤进度
     function updateStepProgress(index) {
-      saveProgress()
+      saveProgress();
     }
 
     // 完成步骤
     function completeStep(index) {
       if (!isStepCompleted(index)) {
-        ElMessage.warning('请完成所有任务后再提交')
-        return
+        ElMessage.warning("请完成所有任务后再提交");
+        return;
       }
 
-      ElMessageBox.confirm(
-        '确认完成本步骤吗？完成后将进入下一步骤。',
-        '提示',
-        {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'success'
-        }
-      ).then(() => {
-        currentStep.value = index + 1
-        totalTime.value += parseInt(teachingSteps.value[index].duration)
-        saveProgress()
-        ElMessage.success('恭喜完成本步骤！')
-      }).catch(() => {})
+      ElMessageBox.confirm("确认完成本步骤吗？完成后将进入下一步骤。", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "success",
+      })
+        .then(() => {
+          currentStep.value = index + 1;
+          totalTime.value += parseInt(teachingSteps.value[index].duration);
+          saveProgress();
+          ElMessage.success("恭喜完成本步骤！");
+        })
+        .catch(() => {});
     }
 
     // 重置进度
     function resetProgress() {
-      ElMessageBox.confirm(
-        '确认重置所有学习进度吗？此操作不可恢复。',
-        '警告',
-        {
-          confirmButtonText: '确认重置',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).then(() => {
-        currentStep.value = 0
-        totalTime.value = 0
-        teachingSteps.value.forEach(step => {
-          step.taskStatus = step.taskStatus.map(() => false)
+      ElMessageBox.confirm("确认重置所有学习进度吗？此操作不可恢复。", "警告", {
+        confirmButtonText: "确认重置",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          currentStep.value = 0;
+          totalTime.value = 0;
+          teachingSteps.value.forEach((step) => {
+            step.taskStatus = step.taskStatus.map(() => false);
+          });
+
+          // 清除新的 localStorage 数据
+          localStorage.removeItem("teachingProgress");
+
+          saveProgress();
+          ElMessage.success("进度已重置");
         })
-        saveProgress()
-        ElMessage.success('进度已重置')
-      }).catch(() => {})
+        .catch(() => {});
     }
 
     // 保存进度
     function saveProgress() {
-      progressStorage.saveProgress('teachingProcess', currentStep.value, {
+      progressStorage.saveProgress("teachingProcess", currentStep.value, {
         steps: teachingSteps.value,
-        totalTime: totalTime.value
-      })
+        totalTime: totalTime.value,
+      });
     }
 
     // 加载进度
     function loadProgress() {
-      const saved = progressStorage.getProgress('teachingProcess')
+      // 先尝试从新的 localStorage 格式加载
+      const newProgress = localStorage.getItem("teachingProgress");
+      if (newProgress) {
+        try {
+          const progress = JSON.parse(newProgress);
+
+          // 更新当前步骤
+          if (progress.currentStep !== undefined) {
+            currentStep.value = progress.currentStep;
+          }
+
+          // 更新学习时长
+          if (progress.totalTime !== undefined) {
+            totalTime.value = progress.totalTime;
+          }
+
+          // 更新任务完成状态
+          if (progress.stepTasks) {
+            Object.keys(progress.stepTasks).forEach((stepKey) => {
+              const stepIndex = parseInt(stepKey.replace("step", ""));
+              const stepData = progress.stepTasks[stepKey];
+
+              if (teachingSteps.value[stepIndex] && stepData.completed) {
+                // 标记该步骤的所有任务为已完成
+                teachingSteps.value[stepIndex].taskStatus = teachingSteps.value[
+                  stepIndex
+                ].taskStatus.map(() => true);
+              }
+            });
+          }
+
+          return;
+        } catch (e) {
+          console.error("加载进度失败:", e);
+        }
+      }
+
+      // 如果新格式不存在，尝试加载旧格式
+      const saved = progressStorage.getProgress("teachingProcess");
       if (saved && saved.data) {
-        currentStep.value = saved.currentStep || 0
-        totalTime.value = saved.data.totalTime || 0
+        currentStep.value = saved.currentStep || 0;
+        totalTime.value = saved.data.totalTime || 0;
         if (saved.data.steps) {
-          teachingSteps.value = saved.data.steps
+          teachingSteps.value = saved.data.steps;
         }
       }
     }
 
     onMounted(() => {
-      loadProgress()
-    })
+      loadProgress();
+    });
 
     return {
       currentStep,
@@ -475,10 +542,10 @@ export default {
       isStepCompleted,
       updateStepProgress,
       completeStep,
-      resetProgress
-    }
-  }
-}
+      resetProgress,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -536,7 +603,6 @@ export default {
   letter-spacing: 0.5px;
 }
 
-
 .steps-card {
   margin-bottom: 20px;
 }
@@ -548,6 +614,10 @@ export default {
 /* Element Plus 步骤组件样式覆盖 */
 :deep(.el-step.is-vertical .el-step__main) {
   margin-bottom: 20px;
+}
+
+:deep(.el-step.is-vertical .el-step__head) {
+  transform: translateY(15px);
 }
 
 .step-title-wrapper {
@@ -704,4 +774,3 @@ export default {
   justify-content: flex-end;
 }
 </style>
-
