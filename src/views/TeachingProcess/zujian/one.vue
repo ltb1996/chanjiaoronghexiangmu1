@@ -4,10 +4,7 @@
     <div class="nav-bar">
       <div class="nav-container">
         <div class="nav-left">
-          <el-button
-            type="text"
-            @click="$router.push('/teaching-process')"
-          >
+          <el-button type="text" @click="$router.push('/teaching-process')">
             <el-icon><ArrowLeft /></el-icon>
             返回教学过程
           </el-button>
@@ -24,13 +21,12 @@
     <!-- 主要内容 -->
     <div class="content-wrapper">
       <div class="content-container">
-
         <!-- 章节导航 -->
         <div class="chapter-nav">
           <el-card class="chapter-card">
             <div class="chapter-header">
               <h3>📚 第一步：金融基础知识学习</h3>
-              <el-tag type="info">第1章 / 共6章</el-tag>
+              <el-tag type="info">第1步 / 共6步</el-tag>
             </div>
             <div class="chapter-progress">
               <el-progress
@@ -45,7 +41,6 @@
 
         <!-- 详细内容 -->
         <div class="detail-content">
-
           <!-- 1.1 金融学基础 -->
           <el-card class="content-card" id="section-1-1">
             <template #header>
@@ -69,15 +64,21 @@
                 <div class="concept-grid">
                   <div class="concept-item">
                     <h5>货币的职能</h5>
-                    <p>货币具有价值尺度、流通手段、支付手段、贮藏手段和世界货币五种职能。</p>
+                    <p>
+                      货币具有价值尺度、流通手段、支付手段、贮藏手段和世界货币五种职能。
+                    </p>
                   </div>
                   <div class="concept-item">
                     <h5>利率</h5>
-                    <p>利率是货币资金的价格，表示在一定时期内利息与本金的比率。</p>
+                    <p>
+                      利率是货币资金的价格，表示在一定时期内利息与本金的比率。
+                    </p>
                   </div>
                   <div class="concept-item">
                     <h5>通货膨胀</h5>
-                    <p>通货膨胀是指物价普遍持续上涨，货币购买力下降的经济现象。</p>
+                    <p>
+                      通货膨胀是指物价普遍持续上涨，货币购买力下降的经济现象。
+                    </p>
                   </div>
                 </div>
               </div>
@@ -95,7 +96,11 @@
                   <div class="quiz-result" v-if="quiz1">
                     <el-alert
                       :type="quiz1 === 'C' ? 'success' : 'error'"
-                      :title="quiz1 === 'C' ? '回答正确！' : '回答错误，正确答案是C选项'"
+                      :title="
+                        quiz1 === 'C'
+                          ? '回答正确！'
+                          : '回答错误，正确答案是C选项'
+                      "
                       show-icon
                     />
                   </div>
@@ -173,78 +178,73 @@
               </div>
             </div>
           </el-card>
-
         </div>
 
         <!-- 底部导航 -->
         <div class="bottom-nav">
           <div class="nav-buttons">
-            <el-button
-              type="primary"
-              size="large"
-              @click="nextChapter"
-            >
+            <el-button type="primary" size="large" @click="nextChapter">
               下一章：金融机构体系
               <el-icon><ArrowRight /></el-icon>
             </el-button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue";
 
 export default {
-  name: 'TeachingProcessOne',
+  name: "TeachingProcessOne",
   components: {
     ArrowLeft,
-    ArrowRight
+    ArrowRight,
   },
   setup() {
-    const router = useRouter()
-    const quiz1 = ref('')
+    const router = useRouter();
+    const quiz1 = ref("");
 
     const nextChapter = () => {
-      ElMessage.success('即将进入下一章学习！')
+      ElMessage.success("即将进入下一章学习！");
       // 这里可以添加保存学习进度的逻辑
       setTimeout(() => {
-        router.push('/teaching-process/two')
-      }, 1000)
-    }
+        router.push("/teaching-process/two");
+      }, 1000);
+    };
 
     return {
       quiz1,
-      nextChapter
-    }
-  }
-}
+      nextChapter,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .detail-page {
+  width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f0f2f5;
 }
 
 .nav-bar {
   background: #fff;
   border-bottom: 1px solid #e4e7ed;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
 .nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding: 0 20px;
   display: flex;
   align-items: center;
@@ -265,13 +265,13 @@ export default {
 }
 
 .content-wrapper {
-  padding: 20px 0;
+  width: 100%;
+  padding: 20px;
 }
 
 .content-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 100%;
+  padding: 0;
 }
 
 .chapter-nav {
@@ -328,6 +328,12 @@ export default {
 
 .section-content {
   padding: 10px 0;
+}
+.learning-objectives {
+  margin-bottom: 15px;
+}
+.key-concepts {
+  margin-bottom: 15px;
 }
 
 .learning-objectives h4,
@@ -389,7 +395,9 @@ export default {
 }
 
 .quiz-options {
-  margin: 15px 0;
+  /* margin: 15px 0; */
+  margin-top: 15px;
+  /* margin-bottom: 5px; */
 }
 
 .quiz-options .el-radio {
@@ -397,9 +405,9 @@ export default {
   margin-bottom: 10px;
 }
 
-.quiz-result {
+/* .quiz-result {
   margin-top: 15px;
-}
+} */
 
 .preview-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
