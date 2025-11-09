@@ -394,14 +394,24 @@
         <!-- 底部导航 -->
         <div class="bottom-nav">
           <div class="nav-buttons">
-            <el-button @click="prevChapter">
+            <el-button size="large" @click="prevChapter">
               <el-icon><ArrowLeft /></el-icon>
-              上一步：风险管理与控制
+              上一章：风险管理与控制
             </el-button>
-            <el-button type="primary" @click="nextChapter">
-              下一步：客户服务与营销
-              <el-icon><ArrowRight /></el-icon>
-            </el-button>
+            <div class="twobtnjiehe">
+              <el-button
+                type="success"
+                size="large"
+                class="wanchengbtn"
+                @click="completeStudy"
+              >
+                ✓ 完成本章学习
+              </el-button>
+              <el-button size="large" type="primary" @click="nextChapter">
+                下一章：客户服务与营销
+                <el-icon><ArrowRight /></el-icon>
+              </el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -410,9 +420,9 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue";
 
 export default {
@@ -424,20 +434,77 @@ export default {
   setup() {
     const router = useRouter();
     const quiz1 = ref("");
+    const isCompleted = ref(false);
+
+    // 检查是否已经完成过
+    onMounted(() => {
+      const progress = JSON.parse(
+        localStorage.getItem("teachingProgress") || "{}"
+      );
+      if (progress.stepTasks && progress.stepTasks["step3"]?.completed) {
+        isCompleted.value = true;
+      }
+    });
+
+    // 完成本章学习
+    const completeStudy = () => {
+      ElMessageBox.confirm("确认已完成本章所有内容的学习吗？", "完成学习", {
+        confirmButtonText: "确认完成",
+        cancelButtonText: "继续学习",
+        type: "success",
+      })
+        .then(() => {
+          // 从 localStorage 获取当前进度
+          let progress = JSON.parse(
+            localStorage.getItem("teachingProgress") || "{}"
+          );
+
+          // 更新进度数据（在前面步骤的基础上叠加）
+          progress.completedSteps = Math.max(progress.completedSteps || 0, 4); // 完成第四步
+          progress.currentStep = Math.max(progress.currentStep || 0, 4); // 当前在第五步
+
+          // 标记第四步的所有任务为已完成
+          if (!progress.stepTasks) {
+            progress.stepTasks = {};
+          }
+          progress.stepTasks["step3"] = {
+            completed: true,
+            completedCount: 8, // 第四步有8个任务
+            totalCount: 8,
+          };
+
+          // 保存到 localStorage
+          localStorage.setItem("teachingProgress", JSON.stringify(progress));
+
+          isCompleted.value = true;
+
+          ElMessage.success({
+            message: "恭喜完成第四章学习！进度已保存",
+            duration: 2000,
+          });
+
+          // 2秒后返回教学过程页面
+          setTimeout(() => {
+            router.push("/teaching-process");
+          }, 2000);
+        })
+        .catch(() => {
+          ElMessage.info("继续学习中...");
+        });
+    };
 
     const prevChapter = () => {
       router.push("/teaching-process/three");
     };
 
     const nextChapter = () => {
-      ElMessage.success("即将进入下一步学习！");
-      setTimeout(() => {
-        router.push("/teaching-process/five");
-      }, 1000);
+      router.push("/teaching-process/five");
     };
 
     return {
       quiz1,
+      isCompleted,
+      completeStudy,
       prevChapter,
       nextChapter,
     };
@@ -922,6 +989,12 @@ export default {
 .nav-buttons {
   display: flex;
   justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.twobtnjiehe {
+  display: flex;
   gap: 15px;
 }
 
