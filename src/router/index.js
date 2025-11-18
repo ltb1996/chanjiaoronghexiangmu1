@@ -11,11 +11,29 @@ import TeachingProcessFour from '../views/TeachingProcess/zujian/four.vue'
 import TeachingProcessFive from '../views/TeachingProcess/zujian/five.vue'
 import TeachingProcessSix from '../views/TeachingProcess/zujian/six.vue'
 import ResourceLibrary from '../views/ResourceLibrary/index.vue'
+import Login from '../views/login/index.vue'
+import Register from '../views/register/index.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      title: '用户登录'
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      title: '用户注册'
+    }
   },
   {
     path: '/dashboard',
