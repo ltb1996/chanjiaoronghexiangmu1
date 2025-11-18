@@ -3,8 +3,9 @@
     <!-- 侧边栏 -->
     <el-aside :width="sidebarCollapsed ? '64px' : '200px'" class="sidebar">
       <div class="logo">
+        <img v-if="!sidebarCollapsed" src="../../assets/pic2.png" alt="logo" class="logo-img" />
         <h2 v-if="!sidebarCollapsed">金融产教融合</h2>
-        <h2 v-else>金融</h2>
+        <img v-else src="../../assets/pic2.png" alt="logo" class="logo-img-collapsed" />
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -142,6 +143,23 @@ export default {
   color: #fff;
   font-size: 16px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 10px;
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.logo-img-collapsed {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .sidebar-menu {
